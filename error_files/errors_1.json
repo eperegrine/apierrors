@@ -1,0 +1,9 @@
+{
+  "ERR_BASIC": {
+    "msg": "Basic Error"
+  },
+  "ERR_HTTP_BASIC": {
+    "msg": "Basic HTTP",
+    "http_code": 400
+  }
+}

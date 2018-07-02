@@ -1,9 +1,10 @@
-var fs = require("fs");
+var fs_path = require("fs-path");
+var prettier = require("prettier");
 var jsonfile = require("jsonfile");
 const cla = require("command-line-args");
 
 let methods = {
-  convertFile: (inputName, outputName, codeCounterBase = 0) => {
+  convertFile: (inputName, outputName, format = false, codeCounterBase = 0) => {
     var input = jsonfile.readFileSync(inputName);
 
     //Setup variables
@@ -16,14 +17,12 @@ let methods = {
       value.code = codeCounter;
       codeCounter += 1;
       outputObj[key] = value;
-      console.log(`${key} is ${JSON.stringify(input[key])}`);
     }
-
-    console.log(`\n${JSON.stringify(outputObj)}`);
-
     //Write file
-    outputContent = "module.exports = " + JSON.stringify(outputObj);
-    fs.writeFile(outputName, outputContent, err => {
+    outputContent = "module.exports=" + JSON.stringify(outputObj);
+    if (format)
+      outputContent = prettier.format(outputContent, { parser: "babylon" });
+    fs_path.writeFile(outputName, outputContent, err => {
       if (err) throw err;
       console.log("File successfully written to " + outputName);
     });
@@ -31,19 +30,26 @@ let methods = {
 };
 module.exports = methods;
 
-function FileDetails(filename) {
-  exp = {};
-  exp.filename = filename;
-  exp.exists = fs.existsSync(filename);
-  return exp;
-}
-
 const optionsDefinitions = [
   { name: "input", alias: "i", multiple: false, defaultValue: "./errors.json" },
-  { name: "output", alias: "o", multiple: false, defaultValue: "./errors.js" }
+  { name: "output", alias: "o", multiple: false, defaultValue: "./errors.js" },
+  {
+    name: "counter",
+    alias: "c",
+    multiple: false,
+    defaultValue: 0,
+    type: Number
+  },
+  {
+    name: "format",
+    alias: "f",
+    type: Boolean,
+    defaultValue: false,
+    multiple: false
+  }
 ];
 
 if (require.main === module) {
   let opts = cla(optionsDefinitions);
-  methods.convertFile(opts.input, opts.output);
+  methods.convertFile(opts.input, opts.output, opts.format, opts.counter);
 }

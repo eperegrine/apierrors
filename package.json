@@ -18,6 +18,8 @@
   "homepage": "https://github.com/eperegrine/apierrors#readme",
   "dependencies": {
     "command-line-args": "^5.0.2",
-    "jsonfile": "^4.0.0"
+    "fs-path": "0.0.24",
+    "jsonfile": "^4.0.0",
+    "prettier": "^1.13.7"
   }
 }

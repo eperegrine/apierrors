@@ -1,11 +1,16 @@
 var fs = require("fs");
+var jsonfile = require("jsonfile");
 const cla = require("command-line-args");
 
 let methods = {
   convertFile: (inputName, outputName, codeCounterBase = 0) => {
-    var input = require(inputName);
+    var input = jsonfile.readFileSync(inputName);
+
+    //Setup variables
     var outputObj = {};
     var codeCounter = codeCounterBase;
+
+    //Loop through errors and add a code to each
     for (var key in input) {
       let value = input[key];
       value.code = codeCounter;
@@ -13,14 +18,14 @@ let methods = {
       outputObj[key] = value;
       console.log(`${key} is ${JSON.stringify(input[key])}`);
     }
+
     console.log(`\n${JSON.stringify(outputObj)}`);
+
+    //Write file
     outputContent = "module.exports = " + JSON.stringify(outputObj);
     fs.writeFile(outputName, outputContent, err => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log("success!");
+      if (err) throw err;
+      console.log("File successfully written to " + outputName);
     });
   }
 };
@@ -39,6 +44,6 @@ const optionsDefinitions = [
 ];
 
 if (require.main === module) {
-  opts = cla(optionsDefinitions);
+  let opts = cla(optionsDefinitions);
   methods.convertFile(opts.input, opts.output);
 }

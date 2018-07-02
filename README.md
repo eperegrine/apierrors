@@ -28,7 +28,7 @@ apierrors.convertFile(
 
 ### CLI
 
-`node index.js -i input.json -o errors errors.js -f -c 0`
+`generateapierrors -i input.json -o errors errors.js -f -c 0`
 
 Args:
 

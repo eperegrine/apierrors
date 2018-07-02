@@ -8,7 +8,7 @@ A useful js library for generating and error list
 
 ```js
 //Import Library
-var apierrors = require("apierrors");
+var apierrors = require("api_error_generator");
 
 //Generating the code
 error_list = apierrors.generateCodes({

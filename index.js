@@ -4,20 +4,21 @@ var jsonfile = require("jsonfile");
 const cla = require("command-line-args");
 
 let methods = {
-  convertFile: (inputName, outputName, format = false, codeCounterBase = 0) => {
-    var input = jsonfile.readFileSync(inputName);
-
-    //Setup variables
+  generateCodes: (errorJSON, codeCounterBase = 0) => {
     var outputObj = {};
     var codeCounter = codeCounterBase;
-
     //Loop through errors and add a code to each
-    for (var key in input) {
-      let value = input[key];
+    for (var key in errorJSON) {
+      let value = errorJSON[key];
       value.code = codeCounter;
       codeCounter += 1;
       outputObj[key] = value;
     }
+    return outputObj;
+  },
+  convertFile: (inputName, outputName, format = false, codeCounterBase = 0) => {
+    var errorJSON = jsonfile.readFileSync(inputName);
+    outputObj = methods.generateCodes(errorJSON, codeCounterBase);
     //Write file
     outputContent = "module.exports=" + JSON.stringify(outputObj);
     if (format)

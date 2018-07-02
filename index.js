@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fs_path = require("fs-path");
 var prettier = require("prettier");
 var jsonfile = require("jsonfile");

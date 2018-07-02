@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/eperegrine/apierrors/issues"
   },
-  "homepage": "https://github.com/eperegrine/apierrors#readme"
+  "homepage": "https://github.com/eperegrine/apierrors#readme",
+  "dependencies": {
+    "command-line-args": "^5.0.2"
+  }
 }

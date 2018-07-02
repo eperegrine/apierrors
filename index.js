@@ -1,4 +1,5 @@
 var fs = require("fs");
+const cla = require("command-line-args");
 
 let methods = {
   convertFile: (inputName, outputName, codeCounterBase = 0) => {
@@ -25,6 +26,19 @@ let methods = {
 };
 module.exports = methods;
 
+function FileDetails(filename) {
+  exp = {};
+  exp.filename = filename;
+  exp.exists = fs.existsSync(filename);
+  return exp;
+}
+
+const optionsDefinitions = [
+  { name: "input", alias: "i", multiple: false, defaultValue: "./errors.json" },
+  { name: "output", alias: "o", multiple: false, defaultValue: "./errors.js" }
+];
+
 if (require.main === module) {
-  methods.convertFile("./error_files/errors_1.json", "./output/errors_1.js");
+  opts = cla(optionsDefinitions);
+  methods.convertFile(opts.input, opts.output);
 }

@@ -1,6 +1,6 @@
 {
   "name": "api_error_generator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A useful js library for generating and error list",
   "main": "index.js",
   "scripts": {
